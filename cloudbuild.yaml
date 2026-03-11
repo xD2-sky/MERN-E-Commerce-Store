@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud compute ssh gcp-pipeline \
+          --zone=asia-south1-b \
+          --tunnel-through-iap \
+          --quiet \
+          --ssh-flag="-o StrictHostKeyChecking=no" \
+          --command='cd /opt/app && sudo git pull origin main && sudo docker compose up --build -d'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
